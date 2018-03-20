@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TungTon</string>
+    <string name="pirce">ราคา</string>
+    <string name="sumPrice">ราคารวม</string>
+    <string name="sumProduct">สินค้ารวม</string>
+    <string name="nameProduct"></string>
+</resources>
