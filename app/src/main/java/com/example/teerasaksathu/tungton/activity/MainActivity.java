@@ -1,8 +1,10 @@
 package com.example.teerasaksathu.tungton.activity;
 
 
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
@@ -29,7 +32,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     TextView result;
 
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
 
