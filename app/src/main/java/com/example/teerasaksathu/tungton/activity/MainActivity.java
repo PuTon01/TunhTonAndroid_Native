@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
@@ -25,8 +23,7 @@ import android.widget.TextView;
 
 import com.example.teerasaksathu.tungton.R;
 import com.example.teerasaksathu.tungton.dao.DataDao;
-import com.example.teerasaksathu.tungton.dao.DataDaoFirst;
-import com.example.teerasaksathu.tungton.manager.DataManager;
+
 import com.example.teerasaksathu.tungton.manager.Http;
 
 import com.example.teerasaksathu.tungton.manager.NumberBarcode;
@@ -190,5 +187,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        nameproduct.setText("");
+        price.setText("0");
+        sumPrice.setText("0");
+        init();
+
     }
 }
