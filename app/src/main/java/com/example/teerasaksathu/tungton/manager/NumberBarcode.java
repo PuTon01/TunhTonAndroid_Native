@@ -1,9 +1,9 @@
 package com.example.teerasaksathu.tungton.manager;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.teerasaksathu.tungton.ApiService.Api;
-import com.example.teerasaksathu.tungton.dao.DataDaoFirst;
 import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 
 import retrofit2.Retrofit;
@@ -12,35 +12,33 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by nuuneoi on 11/16/2014.
  */
-public class DataManager {
+public class NumberBarcode {
 
-    private static DataManager instance;
+    private static NumberBarcode instance;
 
-    public static DataManager getInstance() {
+    public static NumberBarcode getInstance() {
         if (instance == null)
-            instance = new DataManager();
+            instance = new NumberBarcode();
         return instance;
     }
 
     private Context mContext;
-    private DataDaoFirst daoFirst;
+    private String barcode;
 
-    private DataManager() {
-
+    private NumberBarcode() {
         mContext = Contextor.getInstance().getContext();
 
-
     }
 
-    public DataDaoFirst getDaoFirst() {
-        return daoFirst;
+    public String getBarcode() {
+        return barcode;
     }
 
-    public void setDaoFirst(DataDaoFirst daoFirst) {
-        this.daoFirst = daoFirst;
+    public void setBarcode(String barcode) {
+        if (barcode != null) {
+            this.barcode = barcode;
+        }else {
+            Log.d("ressetbarcode =>", barcode);
+        }
     }
-
-
 }
-
-

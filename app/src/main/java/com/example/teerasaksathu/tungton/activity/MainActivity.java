@@ -1,17 +1,24 @@
 package com.example.teerasaksathu.tungton.activity;
 
 
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+
 
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
+import android.view.Window;
 import android.widget.TextView;
 
 
@@ -22,6 +29,7 @@ import com.example.teerasaksathu.tungton.dao.DataDaoFirst;
 import com.example.teerasaksathu.tungton.manager.DataManager;
 import com.example.teerasaksathu.tungton.manager.Http;
 
+import com.example.teerasaksathu.tungton.manager.NumberBarcode;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -36,62 +44,38 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    String bacodeNumber ="8851727003056";
+
     SurfaceView cameraView;
     BarcodeDetector barcode;
     CameraSource cameraSource;
     SurfaceHolder holder;
+    Button pay;
+    int sum = 0;
+    TextView sumProduct,price, sumPrice,nameproduct;
+    public static final int REQUEST_CODE = 100;
+    String storeId = "1";
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-
-
-
-
-//        bacodeScan();
-
-        Call<DataDaoFirst> call = Http.getInstance().getApi().listProduct();
-
-        call.enqueue(new Callback<DataDaoFirst>() {
-            @Override
-            public void onResponse(Call<DataDaoFirst> call, Response<DataDaoFirst> response) {
-                if (response.isSuccessful()) {
-                    DataDaoFirst dataDaoFirst = response.body();
-                    DataManager.getInstance().setDaoFirst(dataDaoFirst);
-                    Toast.makeText(MainActivity.this
-                            ,dataDaoFirst.getDataDaos().get(0).getProductName()
-                            ,Toast.LENGTH_LONG).show();
-                }else {
-                    try {
-                        Toast.makeText(MainActivity.this
-                                ,response.errorBody().string()
-                                ,Toast.LENGTH_LONG).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<DataDaoFirst> call, Throwable t) {
-                Toast.makeText(MainActivity.this
-                        ,t.toString()
-                        ,Toast.LENGTH_LONG).show();
-            }
-        });
-
-
-
-
-
+        init();
 
     }
 
-    public void bacodeScan() {
+    public void init() {
+
+        sumPrice = findViewById(R.id.sumprice);
+        sumProduct = findViewById(R.id.sumproduct);
+        price = findViewById(R.id.price);
+        nameproduct = findViewById(R.id.nameproduct);
+
+
+
+
         cameraView = findViewById(R.id.cameraView);
         cameraView.setZOrderMediaOverlay(true);
         holder = cameraView.getHolder();
@@ -144,15 +128,67 @@ public class MainActivity extends AppCompatActivity {
                 if(barcodes.size() > 0){
 
                     Barcode barcode = barcodes.valueAt(0);
-//                    bacodeNumber = barcode.displayValue;
+                    Log.d("barcode =>", barcode.rawValue);
+                    NumberBarcode.getInstance().setBarcode(barcode.rawValue);
+                    if (NumberBarcode.getInstance().getBarcode()!= null){
 
+                        Call<DataDao> call = Http.getInstance().getApi().listProduct(NumberBarcode.getInstance().getBarcode(),storeId);
 
+                        call.enqueue(new Callback<DataDao>() {
+                            @Override
+                            public void onResponse(Call<DataDao> call, Response<DataDao> response) {
+                                if (response.isSuccessful()) {
+                                    DataDao dataDao = response.body();
+                                   nameproduct.setText(dataDao.getProductName());
+                                   price.setText(dataDao.getProductPrice());
+                                    sum =+ Integer.parseInt(dataDao.getProductPrice()) ;
+                                   sumPrice.setText(String.valueOf(sum));
+                                    String[] numProduct;
 
+                                }else {
+                                    try {
+                                        Toast.makeText(MainActivity.this
+                                                ,response.errorBody().string()
+                                                ,Toast.LENGTH_LONG).show();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
 
+                            @Override
+                            public void onFailure(Call<DataDao> call, Throwable t) {
+                                Toast.makeText(MainActivity.this
+                                        ,t.toString()
+                                        ,Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }else {
+                        Toast.makeText(MainActivity.this
+                                ,"แสกนใหม่อีกครั้ง"
+                                ,Toast.LENGTH_LONG).show();
+                    }
 
 
                 }
             }
         });
+
+        pay = findViewById(R.id.pay);
+        pay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+                intent.putExtra("sumPrice", sum);
+                startActivityForResult(intent, REQUEST_CODE);
+
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

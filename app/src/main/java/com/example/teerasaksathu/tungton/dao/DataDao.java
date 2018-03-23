@@ -22,6 +22,16 @@ public class DataDao {
     private String productSize;
     @SerializedName("productStatus")
     private String productStatus;
+    @SerializedName("productPrice")
+    private String productPrice;
+
+    public String getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(String productPrice) {
+        this.productPrice = productPrice;
+    }
 
     public String getProductId() {
         return productId;
