@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                                     DataDao dataDao = response.body();
                                    nameproduct.setText(dataDao.getProductName());
                                    price.setText(dataDao.getProductPrice());
-                                    sum =+ Integer.parseInt(dataDao.getProductPrice()) ;
+                                    sum += Integer.parseInt(dataDao.getProductPrice()) ;
                                    sumPrice.setText(String.valueOf(sum));
                                     String[] numProduct;
 
