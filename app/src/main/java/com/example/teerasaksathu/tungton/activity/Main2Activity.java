@@ -48,22 +48,18 @@ public class Main2Activity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         sumPriceInt = bundle.getInt("sumPrice");
         sumPrice.setText(String.valueOf(sumPriceInt));
-
-
         ed_pay = findViewById(R.id.ed_pay);
         ton = findViewById(R.id.sumton);
         btnConfirm = findViewById(R.id.btnconfirm);
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
+                Intent intent = new Intent(Main2Activity.this,MainActivity.class);
                 setResult(RESULT_OK, intent);
-                finish();
+                startActivity(intent);
 
             }
         });
-
-
         result = sumPrice.getText().toString().trim();
         sumPriceInt = Integer.parseInt(result);
 

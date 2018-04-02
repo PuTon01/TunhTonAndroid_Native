@@ -21,15 +21,15 @@
             android:orientation="horizontal"
             android:layout_weight="0">
 
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:background="#ffffff"
-                android:textSize="20dp"
-                android:text="< กลับ"
-                android:textColor="@color/wallet_holo_blue_light"/>
+            <!--<Button-->
+                <!--android:id="@+id/button3"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="3"-->
+                <!--android:background="#ffffff"-->
+                <!--android:textSize="20dp"-->
+                <!--android:text="<กลับ"-->
+                <!--android:textColor="@color/wallet_holo_blue_light"/>-->
 
             <TextView
                 android:id="@+id/textView2"

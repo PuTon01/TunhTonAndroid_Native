@@ -1,13 +1,9 @@
 package com.example.teerasaksathu.tungton.manager;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.example.teerasaksathu.tungton.ApiService.Api;
 import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by nuuneoi on 11/16/2014.
@@ -24,10 +20,17 @@ public class NumberBarcode {
 
     private Context mContext;
     private String barcode;
+    private Boolean aBoolean;
+
+
 
     private NumberBarcode() {
         mContext = Contextor.getInstance().getContext();
 
+    }
+
+    public Boolean getaBoolean() {
+        return aBoolean;
     }
 
     public String getBarcode() {
@@ -35,10 +38,18 @@ public class NumberBarcode {
     }
 
     public void setBarcode(String barcode) {
-        if (barcode != null) {
-            this.barcode = barcode;
-        }else {
-            Log.d("ressetbarcode =>", barcode);
-        }
+
+        this.barcode = barcode;
+
     }
+
+    public void setaBoolean(Boolean aBoolean) {
+
+        this.aBoolean = aBoolean;
+
+    }
+
+
 }
+
+
