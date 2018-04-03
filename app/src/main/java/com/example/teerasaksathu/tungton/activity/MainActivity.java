@@ -20,12 +20,14 @@ import com.example.teerasaksathu.tungton.R;
 import com.example.teerasaksathu.tungton.dao.DataDao;
 import com.example.teerasaksathu.tungton.manager.Http;
 import com.example.teerasaksathu.tungton.manager.NumberBarcode;
+import com.example.teerasaksathu.tungton.manager.Product;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE = 100;
     String storeId = "1";
     Boolean bBoolean = true;
-
+    ArrayList<Product> productList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +95,12 @@ public class MainActivity extends AppCompatActivity {
                     if (ContextCompat.checkSelfPermission(MainActivity.this
                             , android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                         //สั่งให้กล้องโชว์ที่ตัว SurfaceView
-                        cameraSource.start(cameraView.getHolder());
+                        if (!bBoolean){
+                            cameraSource.start(cameraView.getHolder());
+                        }else {
+                            cameraSource.stop();
+                        }
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -125,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                     Barcode barcode = barcodes.valueAt(0);
                     Log.d("Barcode ==>", barcode.displayValue);
                     ShowSaleQuantityAleartDialog();
+                    bBoolean = true;
 
 
                 }
@@ -181,11 +189,26 @@ public class MainActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             NumberBarcode.getInstance().setaBoolean(true);
                             DataDao dataDao = response.body();
-                            nameproduct.setText(dataDao.getProductName());
-                            price.setText(dataDao.getProductPrice());
-                            sum += Integer.parseInt(dataDao.getProductPrice());
-                            sumPrice.setText(String.valueOf(sum));
-                            bBoolean = true;
+                            int productId = Integer.parseInt(dataDao.getProductId());
+                            Double productPrice = Double.parseDouble(dataDao.getProductPrice());
+                            Product product = new Product(productId
+                                    ,1,productPrice);
+
+                            boolean isFound = false;
+                            for (Product productLoop : productList){
+                                if (product.getProductId() == productLoop.getProductId()) {
+                                    productLoop.setSaleQuantity(1);
+                                    productLoop.setSaleTotalPrice();
+                                    isFound = true;
+                                    break;
+                                }
+                            }
+                            if (!(isFound)) {
+                                productList.add(product);
+                            }
+
+
+
 
                         } else {
                             try {
