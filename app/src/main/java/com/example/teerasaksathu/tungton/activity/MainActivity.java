@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
                     Barcode barcode = barcodes.valueAt(0);
                     Log.d("Barcode ==>", barcode.displayValue);
+                    ShowSaleQuantityAleartDialog();
 
 
                 }
@@ -134,10 +135,10 @@ public class MainActivity extends AppCompatActivity {
         pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-//                intent.putExtra("sumPrice", sum);
-//                startActivityForResult(intent, REQUEST_CODE);
-                ShowSaleQuantityAleartDialog();
+                Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+                intent.putExtra("sumPrice", sum);
+                startActivityForResult(intent, REQUEST_CODE);
+
 
 
             }
