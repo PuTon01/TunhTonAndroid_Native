@@ -96,9 +96,10 @@ public class MainActivity extends AppCompatActivity {
                             , android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                         //สั่งให้กล้องโชว์ที่ตัว SurfaceView
                         if (!bBoolean){
-                            cameraSource.start(cameraView.getHolder());
-                        }else {
                             cameraSource.stop();
+                        }else {
+                            cameraSource.start(cameraView.getHolder());
+
                         }
 
                     }

@@ -58,8 +58,12 @@ public class SaleQuantityAleartDialogFragment extends DialogFragment implements 
             saleQuantity++;
             tvSaleQuantity.setText(String.valueOf(saleQuantity));
         } else if (view == btnMinusSaleQuantity) {
-            saleQuantity--;
-            tvSaleQuantity.setText(String.valueOf(saleQuantity));
+            if (saleQuantity != 1) {
+                saleQuantity--;
+                tvSaleQuantity.setText(String.valueOf(saleQuantity));
+            }
+
+
         } else if (view == btnCloseDialog) {
             getDialog().dismiss();
         }
