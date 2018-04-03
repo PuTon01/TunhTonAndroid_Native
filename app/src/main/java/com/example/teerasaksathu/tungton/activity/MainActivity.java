@@ -1,6 +1,7 @@
 package com.example.teerasaksathu.tungton.activity;
 
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.view.Window;
 import android.widget.TextView;
+
 import com.example.teerasaksathu.tungton.R;
 import com.example.teerasaksathu.tungton.dao.DataDao;
 import com.example.teerasaksathu.tungton.manager.Http;
@@ -22,7 +24,9 @@ import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+
 import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,11 +40,10 @@ public class MainActivity extends AppCompatActivity {
     SurfaceHolder holder;
     Button pay;
     int sum = 0;
-    TextView sumProduct,price, sumPrice,nameproduct,description;
+    TextView sumProduct, price, sumPrice, nameproduct, description;
     public static final int REQUEST_CODE = 100;
     String storeId = "1";
     Boolean bBoolean = true;
-
 
 
     @Override
@@ -67,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 //ให้เลยอ่าน บาร์โค้ดได้หลานอย่าง
                 .setBarcodeFormats(Barcode.ALL_FORMATS)
                 .build();
-        if(!barcode.isOperational()){
+        if (!barcode.isOperational()) {
             //ถ้าไม่สามารถอ่านไก้จะขึ้นตรงนี้
             Toast.makeText(this, "Sorry, Couldn't setup the detector", Toast.LENGTH_LONG).show();
             this.finish();
@@ -80,20 +83,19 @@ public class MainActivity extends AppCompatActivity {
                 // ออโต้โฟกัส
                 .setAutoFocusEnabled(true)
                 //ขนาดกล้องที่จะ โชว์ว่าสัดส่วนเท่าไหร่
-                .setRequestedPreviewSize(480,800)
+                .setRequestedPreviewSize(480, 800)
                 .build();
         cameraView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
-                try{
+                try {
                     // เปิดสิทธ์ในการเข้าถึงกล้อง
-                    if(ContextCompat.checkSelfPermission(MainActivity.this
-                            , android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+                    if (ContextCompat.checkSelfPermission(MainActivity.this
+                            , android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                         //สั่งให้กล้องโชว์ที่ตัว SurfaceView
                         cameraSource.start(cameraView.getHolder());
                     }
-                }
-                catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -116,14 +118,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void receiveDetections(Detector.Detections<Barcode> detections) {
-                final SparseArray<Barcode> barcodes =  detections.getDetectedItems();
+                final SparseArray<Barcode> barcodes = detections.getDetectedItems();
                 //จะอ่านบาร์ดโค้ดแล้วจะเอามาโชว์ตัวนี้
-                if(barcodes.size() > 0) {
+                if (barcodes.size() > 0) {
 
                     Barcode barcode = barcodes.valueAt(0);
                     Log.d("Barcode ==>", barcode.displayValue);
-
-
 
 
                 }
@@ -134,9 +134,11 @@ public class MainActivity extends AppCompatActivity {
         pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-                intent.putExtra("sumPrice", sum);
-                startActivityForResult(intent, REQUEST_CODE);
+//                Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+//                intent.putExtra("sumPrice", sum);
+//                startActivityForResult(intent, REQUEST_CODE);
+                ShowSaleQuantityAleartDialog();
+
 
             }
         });
@@ -166,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void sCanBarcode() {
 
-        if (NumberBarcode.getInstance().getBarcode() != null ) {
+        if (NumberBarcode.getInstance().getBarcode() != null) {
 
             String f = NumberBarcode.getInstance().getBarcode();
             if (NumberBarcode.getInstance().getBarcode() != f) {
@@ -210,5 +212,10 @@ public class MainActivity extends AppCompatActivity {
                     , "แสกนใหม่อีกครั้ง"
                     , Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void ShowSaleQuantityAleartDialog() {
+        DialogFragment newFragment = new SaleQuantityAleartDialogFragment();
+        newFragment.show(getSupportFragmentManager(), "missiles");
     }
 }

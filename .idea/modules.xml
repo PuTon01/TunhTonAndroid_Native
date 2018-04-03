@@ -3,7 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TheCheeseLibrary/TheCheeseLibrary.iml" filepath="$PROJECT_DIR$/TheCheeseLibrary/TheCheeseLibrary.iml" />
-      <module fileurl="file://$PROJECT_DIR$/TungTon.iml" filepath="$PROJECT_DIR$/TungTon.iml" />
+      <module fileurl="file://C:\Users\Naetirat\Desktop\TunhTonAndroid_Native\TungTon.iml" filepath="C:\Users\Naetirat\Desktop\TunhTonAndroid_Native\TungTon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TunhTonAndroid_Native.iml" filepath="$PROJECT_DIR$/TunhTonAndroid_Native.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
