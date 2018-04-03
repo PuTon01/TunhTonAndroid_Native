@@ -1,4 +1,5 @@
 package com.example.teerasaksathu.tungton.activity;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -21,20 +22,26 @@ public class Popup extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popup);
 
-        final Dialog dialog = new Dialog(Popup.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.activity_popup);
-        dialog.setCancelable(true);
-
-        Button button8 = (Button)dialog.findViewById(R.id.button8);
-        button8.setOnClickListener(new OnClickListener() {
+        Button test = (Button)findViewById(R.id.test);
+        test.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.cancel();
+                final Dialog dialog = new Dialog(Popup.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.activity_popup);
+                dialog.setCancelable(true);
+
+                Button button8 = (Button)dialog.findViewById(R.id.button8);
+                button8.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.cancel();
+                    }
+                });
+
+                dialog.show();
+
             }
         });
-
-        dialog.show();
-
     }
 }
